@@ -10,8 +10,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Database,
+  LogOut,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface NavItemProps {
   to: string;
@@ -53,6 +55,7 @@ const navItems = [
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const { logout } = useAuth();
 
   return (
     <aside
@@ -100,30 +103,19 @@ export function Sidebar() {
         </button>
       </div>
 
-      <div
-        className={clsx(
-          'p-3 border-t border-neutral-100',
-          collapsed && 'flex justify-center'
-        )}
-      >
-        <div
+      <div className="p-3 border-t border-neutral-100">
+        <button
+          onClick={logout}
           className={clsx(
-            'flex items-center gap-3',
+            'flex items-center gap-2 w-full px-3 py-2 rounded-lg',
+            'text-red-500 hover:text-red-700 hover:bg-red-50',
+            'transition-colors duration-150',
             collapsed && 'justify-center'
           )}
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
-            AG
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col min-w-0">
-              <span className="text-sm font-medium text-neutral-900 truncate">
-                Ana García
-              </span>
-              <span className="text-xs text-neutral-500 truncate">Operador</span>
-            </div>
-          )}
-        </div>
+          <LogOut size={18} />
+          {!collapsed && <span className="text-sm">Cerrar Sesión</span>}
+        </button>
       </div>
     </aside>
   );
